@@ -1,0 +1,55 @@
+---
+# This role contains common plays that will run on all nodes.
+
+- name: Install python bindings for SE Linux
+  yum: name={{ item }} state=present
+  with_items:
+   - libselinux-python
+   - libsemanage-python
+   - policycoreutils-python
+
+- name: install some useful nagios plugins
+  yum: name={{ item }} state=present
+  with_items:
+   - nagios-nrpe
+   - nagios-plugins-swap
+   - nagios-plugins-users
+   - nagios-plugins-procs
+   - nagios-plugins-load
+   - nagios-plugins-disk
+
+- name: Open nagios 5666 port on every server
+  firewalld:
+    port: 5666/tcp
+    permanent: true
+    immediate: true
+    state: enabled
+
+- name: Start the nagios-nrpe service
+  service: name=nrpe state=started enabled=yes
+  tags: nagios
+
+- name: Install ntp
+  yum: name=ntp state=present
+  tags: ntp
+
+- name: Configure ntp file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  tags: ntp
+  notify: restart ntp
+
+- name: Start the ntp service
+  service: name=ntpd state=started enabled=yes
+  tags: ntp
+
+- name: Open firewall 80 port on every server
+  firewalld:
+    service: http
+    permanent: true
+    immediate: true
+    state: enabled
+
+- name: test to see if selinux is running
+  command: getenforce
+  register: sestatus
+  changed_when: false

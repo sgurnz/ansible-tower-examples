@@ -1,0 +1,8 @@
+---
+# This playbook remove a webserver from the load balancer
+
+- hosts: lbservers
+  tasks:
+    - name: Temporary removing the host {{ targethost }} from Loadbalancer
+      haproxy: 'state=disabled backend=myloadbalancer host={{ targethost }} socket=/var/lib/haproxy/stats'
+
