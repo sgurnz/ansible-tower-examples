@@ -13,7 +13,7 @@
   yum:
    - name: "{{ item }}"
    - state: present
-   - diablerepo: *
+   - disablerepo: *
    - enablerepo: local-repo
   with_items:
    - libselinux-python
@@ -24,7 +24,7 @@
   yum:
    - name: "{{ item }}"
    - state: present
-   - diablerepo: *
+   - disablerepo: *
    - enablerepo: local-repo
   with_items:
    - nagios-nrpe
@@ -49,7 +49,7 @@
   yum:
    - name: ntp
    - state: present
-   - diablerepo: *
+   - disablerepo: *
    - enablerepo: local-repo
   tags: ntp
 
