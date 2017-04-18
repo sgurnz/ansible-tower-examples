@@ -1,15 +1,31 @@
 ---
 # This role contains common plays that will run on all nodes.
 
+- name: Add local repo for disconnected demos
+  copy:
+   - src: local.repo
+   - dest: /etc/yum.repos.d/local.repo
+   - owner: root
+   - group: root
+   - mode: 0644
+
 - name: Install python bindings for SE Linux
-  yum: name={{ item }} state=present
+  yum:
+   - name: "{{ item }}"
+   - state: present
+   - diablerepo: *
+   - enablerepo: local-repo
   with_items:
    - libselinux-python
    - libsemanage-python
    - policycoreutils-python
 
 - name: install some useful nagios plugins
-  yum: name={{ item }} state=present
+  yum:
+   - name: "{{ item }}"
+   - state: present
+   - diablerepo: *
+   - enablerepo: local-repo
   with_items:
    - nagios-nrpe
    - nagios-plugins-swap
@@ -30,7 +46,11 @@
   tags: nagios
 
 - name: Install ntp
-  yum: name=ntp state=present
+  yum:
+   - name: ntp
+   - state: present
+   - diablerepo: *
+   - enablerepo: local-repo
   tags: ntp
 
 - name: Configure ntp file
