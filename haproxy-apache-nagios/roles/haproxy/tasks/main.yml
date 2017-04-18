@@ -2,7 +2,11 @@
 # This role installs HAProxy and configures it.
 
 - name: Download and install haproxy
-  yum: name=haproxy state=present
+  yum:
+   - name: haproxy
+   - state: present
+   - diablerepo: *
+   - enablerepo: local-repo 
 
 - name: Setting context for stats port
   seport:
