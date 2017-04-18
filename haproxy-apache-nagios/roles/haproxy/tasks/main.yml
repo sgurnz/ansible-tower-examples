@@ -3,10 +3,10 @@
 
 - name: Download and install haproxy
   yum:
-   - name: haproxy
-   - state: present
-   - disablerepo: *
-   - enablerepo: local-repo 
+    name: haproxy
+    state: present
+    disablerepo: '*'
+    enablerepo: local-repo 
 
 - name: Setting context for stats port
   seport:
