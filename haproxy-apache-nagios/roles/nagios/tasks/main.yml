@@ -14,7 +14,11 @@
     persistent: yes
 
 - name: install nagios
-  yum: pkg={{ item }} state=present
+  yum:
+   - name: "{{ item }}"
+   - state: present
+   - diablerepo: *
+   - enablerepo: local-repo 
   with_items:
    - nagios
    - nagios-plugins
