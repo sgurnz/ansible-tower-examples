@@ -2,7 +2,11 @@
 # This role installs httpd
 
 - name: Install http
-  yum: name={{ item }} state=present
+  yum:
+   - name: "{{ item }}"
+   - state: present
+   - diablerepo: *
+   - enablerepo: local-repo 
   with_items:
    - httpd
    
