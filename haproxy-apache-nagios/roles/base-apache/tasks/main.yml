@@ -3,10 +3,10 @@
 
 - name: Install http
   yum:
-   - name: "{{ item }}"
-   - state: present
-   - disablerepo: *
-   - enablerepo: local-repo 
+    name: "{{ item }}"
+    state: present
+    disablerepo: '*'
+    enablerepo: local-repo 
   with_items:
    - httpd
    
