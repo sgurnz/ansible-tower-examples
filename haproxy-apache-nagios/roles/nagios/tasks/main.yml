@@ -15,10 +15,10 @@
 
 - name: install nagios
   yum:
-   - name: "{{ item }}"
-   - state: present
-   - disablerepo: *
-   - enablerepo: local-repo 
+    name: "{{ item }}"
+    state: present
+    disablerepo: '*'
+    enablerepo: local-repo 
   with_items:
    - nagios
    - nagios-plugins
