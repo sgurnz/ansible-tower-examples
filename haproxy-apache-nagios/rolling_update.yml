@@ -21,7 +21,7 @@
 
   - name: pause to let us review the status after remiving the first host from nagios and lb
     pause: 
-      prompt: "Press a key when ready..."
+      seconds: 10
  
   # The next task applies updates
   - name: Update the system packages
