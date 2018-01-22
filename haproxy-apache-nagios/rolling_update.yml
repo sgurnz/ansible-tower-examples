@@ -30,6 +30,7 @@
       state: latest
       disablerepo: '*'
       enablerepo: local-repo
+      update_cache: yes
     with_items: "{{pkg_list}}"
 
   # These tasks run after the roles:
