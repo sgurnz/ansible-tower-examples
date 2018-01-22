@@ -28,8 +28,6 @@
     yum: 
       name: "{{item}}"
       state: latest
-      disablerepo: '*'
-      enablerepo: local-repo
     with_items: "{{pkg_list}}"
 
   # These tasks run after the roles:
