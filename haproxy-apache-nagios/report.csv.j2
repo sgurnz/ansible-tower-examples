@@ -1,0 +1,4 @@
+hostname,name,version,release,arch,repo
+{% for elem in updates.results %}
+{{ansible_fqdn}},{{elem.name}},{{elem.version}},{{elem.release}},{{elem.arch}},{{elem.repo}}
+{% endfor %}
