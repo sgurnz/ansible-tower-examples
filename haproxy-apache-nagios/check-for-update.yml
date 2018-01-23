@@ -1,0 +1,30 @@
+- name: check for updates
+  hosts: all
+  gather_facts: true
+  become: yes
+
+  tasks:
+
+  - name: check for updates (yum)
+    yum: 
+      list: updates 
+      update_cache: true
+      disablerepo: '*'
+      enablerepo: local-repo
+    register: updates
+    when: ansible_distribution_major_version|int < 22
+
+#  - name: check for updates (dnf)
+#    dnf: list=updates
+#    register: updates
+#    when: ansible_distribution_major_version|int > 21
+
+  - name: generate report
+    local_action: 
+      module: template 
+      src: ./report.csv.j2 
+      dest: ./{{inventory_hostname}}-report.csv
+    become: false
+
+  - name: print summary results
+    debug: msg="{{updates.results|count}} pending updates"
