@@ -1,1 +1,43 @@
+# windows-updates-all.yml
+
+- hosts: all
+  serial: 1
+  remote_user: administrator
+
+  tasks:
+
+   # Check if there are missing updates
+    - block:
+        - name: Check for missing updates.
+          win_updates: state=searched
+          register: update_count
+        - name: Display result of Check operation
+          debug: msg="{{update_count}}"
+
+    #Install missing updates only if at least one is missing
+    - block:
+        - name: Install missing updates.
+          win_updates:
+            category_names:
+              - Application
+              - Connectors
+              - DefinitionUpdates
+              - DeveloperKits
+              - FeaturePacks
+              - Guidance
+              - ServicePacks
+              - Tools
+              - UpdateRollups
+              - CriticalUpdates
+              - SecurityUpdates
+              - Updates
+          state: searched
+          register: update_result
+          notify: Reboot, if needed.
+      when: update_count.found_update_count|int >= 1
+
+  handlers:
+    - name: Reboot, if needed.
+      win_reboot:
+      when: update_result.reboot_required
 
