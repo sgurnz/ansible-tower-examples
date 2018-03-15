@@ -31,7 +31,6 @@
               - CriticalUpdates
               - SecurityUpdates
               - Updates
-          state: searched
           register: update_result
           notify: Reboot, if needed.
       when: update_count.found_update_count|int >= 1
