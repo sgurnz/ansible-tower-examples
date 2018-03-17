@@ -21,7 +21,7 @@
   handlers:
   
   - name: reboot if needed
-    command: sleep 1 && shutdown -r now "Reboot triggered by Ansible" && sleep 1
+    command: 'sleep 1 && shutdown -r now "Reboot triggered by Ansible" && sleep 1'
     async: 1
     poll: 0
     ignore_errors: true
