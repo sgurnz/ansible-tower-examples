@@ -1,0 +1,36 @@
+---
+# This playbook does a rolling update for all webservers serially (one at a time).
+# Change the value of serial: to adjust the number of server to be updated.
+#
+
+- hosts: "{{ targethost }}"
+  serial: 1
+
+  tasks:
+
+  # The next task applies updates
+  - name: Update the system packages
+    yum: 
+      name: "{{ item }}"
+      state: latest
+    with_items: "{{ pkg_list }}"
+    notify: 
+      - reboot if needed
+      - Wait for server to restart
+
+  handlers:
+  
+  - name: reboot if needed
+      command: 'sleep 1 && shutdown -r now "Reboot triggered by Ansible" && sleep 1'
+      async: 1
+      poll: 0
+      ignore_errors: true
+      become: true
+
+    - name: Wait for server to restart
+      local_action:
+        module: wait_for
+          host={{ ansible_ssh_host }}
+          port=22
+          delay=10
+        become: false
