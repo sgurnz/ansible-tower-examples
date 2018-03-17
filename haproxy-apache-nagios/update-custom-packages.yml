@@ -21,7 +21,7 @@
   handlers:
   
   - name: reboot if needed
-    command: /usr/bin/systemd-run --on-active=10 /usr/bin/systemctl reboot
+    command: /usr/bin/systemd-run --on-active=4 /usr/bin/systemctl reboot
     async: 0
     poll: 0
     ignore_errors: true
