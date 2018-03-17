@@ -28,9 +28,9 @@
     become: true
 
   - name: Wait for server to restart
-    local_action:
-      module: wait_for
-        host={{ ansible_ssh_host }}
-        port=22
-        delay=10
+    wait_for:
+      host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+      port: 22
+      delay: 10
+    connection: local
     become: false
