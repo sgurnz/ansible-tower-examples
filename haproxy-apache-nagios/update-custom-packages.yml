@@ -21,8 +21,8 @@
   handlers:
   
   - name: reboot if needed
-    command: 'sleep 1 && shutdown -r now "Reboot triggered by Ansible" && sleep 1'
-    async: 1
+    command: /usr/bin/systemd-run --on-active=10 /usr/bin/systemctl reboot
+    async: 0
     poll: 0
     ignore_errors: true
     become: true
